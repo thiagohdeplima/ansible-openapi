@@ -1,0 +1,5 @@
+- name: generate krakend.json
+  connection: local
+  hosts: localhost
+  roles:
+  - role: krakend
