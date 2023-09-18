@@ -1,0 +1,12 @@
+---
+- name: parse openapi
+  openapi_parse:
+    spec: 'tmp/openapi.yaml'
+  register: endpoints
+
+- name: generate krakend.json
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/krakend.json.j2"
+    dest: /tmp/krakend.json
+
+- debug: var=endpoints

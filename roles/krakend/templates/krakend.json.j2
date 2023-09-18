@@ -1,0 +1,30 @@
+{
+  "$schema": "https://www.krakend.io/schema/v2.4/krakend.json",
+  "version": 3,
+  "host": [
+    "https://192.168.0.109:8000"
+  ],
+  "endpoints": [
+    {% for endpoint in endpoints.endpoints %}
+
+    {
+      "endpoint": "{{ endpoint.url }}",
+      "output_encoding": "no-op",
+      "method": "{{ endpoint.method }}",
+      "input_query_strings": {{ endpoint.query_params | to_json }},
+      "backend": [
+        {
+          "url_pattern": "{{ endpoint.url }}"
+        }
+      ]
+    }
+    {% if not loop.last %},{% endif %}
+
+    {% endfor %}
+  ],
+  "extra_config": {
+    "router": {
+      "return_error_msg": true
+    }
+  }
+}
